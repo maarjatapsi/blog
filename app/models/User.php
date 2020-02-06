@@ -39,7 +39,7 @@ class User
         $user = $this->db->getOne();
         $hashedPassword = $user->password;
         if(password_verify($password, $hashedPassword)){
-
+            return $user;
         } else {
             return false;
         }

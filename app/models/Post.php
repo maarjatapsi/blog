@@ -22,4 +22,48 @@ class Post
         $result = $this->db->getAll();
         return $result;
     }
+
+    public function getPostById($id){
+        $this->db->query('SELECT * FROM posts WHERE id=:id');
+        $this->db->bind(':id', $id);
+        $post = $this->db->getOne();
+        return $post;
+    }
+
+    public function deletePost($id){
+        $this->db->query('DELETE FROM posts WHERE id=:id');
+        $this->db->bind(':id', $id);
+        $result = $this->db->execute();
+        if($result){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function editPost($data){
+        $this->db->query('UPDATE posts SET title=:title, content=:content WHERE id=:id');
+        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':content', $data['content']);
+        $result = $this->db->execute();
+        if($result){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function addPost($data){
+        $this->db->query('INSERT INTO posts (title, user_id, content) VALUES(:title, :user_id, :content)');
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':content', $data['content']);
+        $result = $this->db->execute();
+        if($result){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

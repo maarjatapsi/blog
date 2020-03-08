@@ -93,6 +93,7 @@ class Posts extends Controller
             $data = array(
                 'title' => trim($_POST['title']),
                 'content' => trim($_POST['content']),
+                'tags' => explode(',', str_replace(' ', '', $_POST['tags'])),
                 'user_id' => $_SESSION['user_id'],
                 'title_err' => '',
                 'content_err' => ''

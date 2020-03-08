@@ -9,6 +9,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo URLROOT; ?>">Home</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo URLROOT; ?>/tags">Tags</a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <?php if(isset($_SESSION['user_id'])) :?>

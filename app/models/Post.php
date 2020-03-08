@@ -14,17 +14,29 @@ class Post
         $this->db->query('SELECT *,
                             posts.id as postId,
                             users.id as userId,
+                            users.name as userName,
+                            group_concat(tags.name) as postTags,
                             posts.created_at as postCreated
                             FROM posts
                             INNER JOIN users
                             ON posts.user_id = users.id
+                            LEFT JOIN tags
+                            ON posts.id = tags.post_id
+                            GROUP BY title
                             ORDER BY posts.created_at DESC');
         $result = $this->db->getAll();
         return $result;
     }
 
     public function getPostById($id){
-        $this->db->query('SELECT * FROM posts WHERE id=:id');
+        $this->db->query('SELECT *,
+          posts.id as postId,
+          group_concat(tags.name) as postTags
+          FROM posts
+          LEFT JOIN tags
+          ON posts.id = tags.post_id
+          WHERE posts.id=:id
+          GROUP BY title');
         $this->db->bind(':id', $id);
         $post = $this->db->getOne();
         return $post;
@@ -61,7 +73,11 @@ class Post
         $this->db->bind(':content', $data['content']);
         $result = $this->db->execute();
         if($result){
-            return true;
+            $sql = 'INSERT INTO tags (post_id, name) VALUES '
+                .implode(', ', array_map(function($tag) { return "(LAST_INSERT_ID(), '$tag')"; }, $data['tags']));
+            $this->db->query($sql);
+            if($this->db->execute()) return true;
+            else return false;
         } else {
             return false;
         }

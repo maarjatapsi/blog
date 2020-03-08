@@ -14,6 +14,11 @@
             <textarea name="content" class="form-control form-control-lg <?php echo (!empty($data['content_err'])) ? 'is-invalid' : ''; ?>"><?php echo $data['content']; ?></textarea>
             <span class="invalid-feedback"><?php echo $data['body_err']; ?></span>
         </div>
+        <div class="form-group">
+            <label for="title">Tags (csv):</label>
+            <input type="text" name="tags" class="form-control form-control-lg <?php echo (!empty($data['title_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['tags']; ?>">
+            <span class="invalid-feedback"><?php echo $data['title_err']; ?></span>
+        </div>
         <input type="submit" class="btn btn-success" value="Submit">
     </form>
 </div>
